@@ -50,3 +50,6 @@ app.delete('/items/:id', (res, req => {
     res.status(204).send();
 }));
 
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
