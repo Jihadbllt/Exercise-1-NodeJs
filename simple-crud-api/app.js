@@ -20,3 +20,12 @@ app.get('/items/:id', (res,req => {
     res.json(item);
 }));
 
+app.post('/items', (res, req => {
+    const newItem = {
+        id: items.length +1,
+        name: req.body.name,
+        descrpition: req.body.descrpition
+    };
+    items.push(newItem);
+    res.status(201).json(newItem);
+}));
