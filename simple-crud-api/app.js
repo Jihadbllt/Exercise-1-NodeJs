@@ -42,3 +42,11 @@ app.put('/items/:id', (res, req =>{
     res.json(items[itemIndex]);
 }));
 
+app.delete('/items/:id', (res, req => {
+    const itemIndex = items.findIndex(i => i.id === parseInt(req.params.id));
+    if (itemIndex === -1) return res.status(404).send('Item not found');
+
+    items.splice(itemIndex, 1);
+    res.status(204).send();
+}));
+
