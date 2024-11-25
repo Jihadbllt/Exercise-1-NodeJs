@@ -1,10 +1,10 @@
 const express = require('express');
-
+const itemRoutes = require('../routes/itemRoutes');
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-
+app.use('/api',itemRoutes);
 let items = [
     {id: 1, name: 'Item 1', descrpition: 'This is Item 1'},
     {id: 2, name: 'Item 2', descrpition: 'This is Item 2'}
@@ -53,3 +53,5 @@ app.delete('/items/:id', (res, req => {
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+module.exports = app;
