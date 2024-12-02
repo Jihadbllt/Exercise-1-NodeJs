@@ -1,7 +1,18 @@
 const express = require('express');
 const itemRoutes = require('../routes/itemRoutes');
+const Subject = require('../services/subject');
+const ObserverLogger = require('../services/observerLogger');
+const ObserverNotifier = require('../services/observerNotifier');
+
 const app = express();
 const PORT = 3000;
+
+const subject = new Subject();
+
+const logger = new ObserverLogger();
+const notifier = new ObserverNotifier();
+subject.subscribe(logger);
+subject.subscribe(notifier);
 
 app.use(express.json());
 app.use('/api',itemRoutes);
