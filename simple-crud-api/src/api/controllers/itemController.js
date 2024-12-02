@@ -2,6 +2,8 @@ const { it } = require('node:test');
 const Item = require('../../domain/item/itemEntity');
 const itemRepository = require('../../domain/item/itemRepository');
 const eventService = require ('../services/eventService');  
+const Subject = require('../services/subject');
+
 
 const getAllItems = (req, res) => {
     const items = itemRepository.findAll();
@@ -19,7 +21,7 @@ const createItem = (req, res) => {
     const newItem = new Item(Date.now(), name, description);
     itemRepository.save(newItem);
 
-    eventService.emit('itemCreated', newItem);
+    Subject.notify({message: `Item created: ${newItem.name}`});
     res.status(201).json(newItem);
 };
 eventService.on('itemCreated', (item) => {
