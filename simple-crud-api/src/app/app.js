@@ -38,6 +38,7 @@ app.post('/items', (res, req => {
         descrpition: req.body.descrpition
     };
     items.push(newItem);
+    subject.notify({ event: 'Item created', data: newItem});
     res.status(201).json(newItem);
 }));
 
@@ -57,7 +58,8 @@ app.delete('/items/:id', (res, req => {
     const itemIndex = items.findIndex(i => i.id === parseInt(req.params.id));
     if (itemIndex === -1) return res.status(404).send('Item not found');
 
-    items.splice(itemIndex, 1);
+    const deleteItem = items.splice(itemIndex, 1)[0];
+    subject.notify({ event: 'item_deleted', data: deleteItem});
     res.status(204).send();
 }));
 
