@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Header from './components/Header';
+import './src/App.css';
 import TaskList from './components/TaskList';
 import Modal from './components/Modal';
 import { createItem, updateItem } from './api/items';
@@ -23,7 +25,8 @@ const App = () => {
     };
 
     return (
-        <div className="app">
+        <div className="App">
+            < Header/>
             <button onClick={() => setModalOpen(true)}>Add Task</button>
             <TaskList onEdit={handleEdit} />
             <Modal
