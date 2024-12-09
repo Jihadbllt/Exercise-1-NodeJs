@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import TaskList from './components/TaskList';
+import Modal from './components/Modal';
+import { createItem, updateItem } from './api/items';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [editingTask, setEditingTask] = useState(null);
+
+    const handleCreate = async (data) => {
+        if (editingTask) {
+            await updateItem(editingTask.id, data);
+        } else {
+            await createItem(data);
+        }
+        setModalOpen(false);
+        setEditingTask(null);
+    };
+
+    const handleEdit = (task) => {
+        setEditingTask(task);
+        setModalOpen(true);
+    };
+
+    return (
+        <div className="app">
+            <button onClick={() => setModalOpen(true)}>Add Task</button>
+            <TaskList onEdit={handleEdit} />
+            <Modal
+                isOpen={isModalOpen}
+                onClose={() => setModalOpen(false)}
+                onSubmit={handleCreate}
+                initialData={editingTask}
+            />
+        </div>
+    );
+};
 
 export default App;
